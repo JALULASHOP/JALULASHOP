@@ -992,13 +992,13 @@
             message += `Quiero confirmar este pedido:\n\n`;
             
             cart.forEach((item) => {
-                message += `Cap Producto: ${item.name}\n`;
-                message += `Ruler Talla: ${item.size}\n`;
-                message += `Artist Palette Color: ${item.color || 'No especificado'}\n`;
-                message += `Input Symbol for Numbers Cantidad: ${item.qty}\n\n`;
+                message += `Producto: ${item.name}\n`;
+                message += `Talla: ${item.size}\n`;
+                message += `Color: ${item.color || 'No especificado'}\n`;
+                message += `Cantidad: ${item.qty}\n\n`;
             });
             
-            message += `¿Me confirmas disponibilidad y precio final? Hands Raised`;
+            message += `¿Me confirmas disponibilidad y precio final?🙌`;
             
             const encoded = encodeURIComponent(message);
             window.open(`https://wa.me/526442230988?text=${encoded}`, '_blank');
