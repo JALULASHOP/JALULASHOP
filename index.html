@@ -334,19 +334,20 @@
         .modal-details h2 { font-family: 'Cinzel', serif; margin-bottom: 10px; font-size: 1.8rem; }
         .modal-price { font-size: 1.5rem; color: var(--accent); margin-bottom: 20px; font-weight: 700; }
         
-        .size-selector { margin-bottom: 20px; }
-        .size-selector p, .qty-selector p { font-size: 0.8rem; text-transform: uppercase; font-weight: 600; margin-bottom: 10px; }
-        .size-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+        .size-selector, .color-selector { margin-bottom: 20px; }
+        .size-selector p, .color-selector p, .qty-selector p { font-size: 0.8rem; text-transform: uppercase; font-weight: 600; margin-bottom: 10px; }
+        .size-btns, .color-btns { display: flex; gap: 10px; flex-wrap: wrap; }
         
-        .size-btn {
+        .size-btn, .color-btn {
             border: 1px solid #ddd;
             padding: 8px 18px;
             background: white;
             font-family: inherit;
             transition: 0.3s;
+            cursor: pointer;
         }
 
-        .size-btn.selected { background: var(--primary); color: white; border-color: var(--primary); }
+        .size-btn.selected, .color-btn.selected { background: var(--primary); color: white; border-color: var(--primary); }
 
         /* Estilos Cantidad */
         .qty-selector { margin-bottom: 30px; }
@@ -370,6 +371,7 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             transition: 0.3s;
+            cursor: pointer;
         }
 
         .add-to-cart-btn:hover { background: var(--accent); color: var(--primary); }
@@ -647,6 +649,11 @@
                     <div class="size-btns" id="size-container"></div>
                 </div>
 
+                <div class="color-selector" id="color-selector">
+                    <p>Seleccionar Color:</p>
+                    <div class="color-btns" id="color-container"></div>
+                </div>
+
                 <div class="qty-selector">
                     <p>Cantidad:</p>
                     <div class="qty-controls">
@@ -740,57 +747,58 @@
         // NUEVOS PRODUCTOS
         const products = [
             // --- TENDENCIA (6 Productos) ---
-            { id: 1, name: "Artículo Tendencia 1", type: "tendencia", price: 499, img: "img/RopaHombre5.jpg", gallery: ["img/RopaHombre5.jpg"], color: "Por definir" },
-            { id: 2, name: "Artículo Tendencia 2", type: "tendencia", price: 499, img: "img/MDeportivo1.jpg", gallery: ["img/MDeportivo1.jpg"], color: "Por definir" },
-            { id: 3, name: "Artículo Tendencia 3", type: "tendencia", price: 499, img: "img/RopaHombre7.jpg", gallery: ["img/RopaHombre7.jpg"], color: "Por definir" },
-            { id: 4, name: "Artículo Tendencia 4", type: "tendencia", price: 499, img: "img/Mujer4.jpg", gallery: ["img/Mujer4.jpg"], color: "Por definir" },
-            { id: 5, name: "Artículo Tendencia 5", type: "tendencia", price: 499, img: "img/MDeportivo5.jpg", gallery: ["img/MDeportivo5.jpg"], color: "Por definir" },
-            { id: 6, name: "Artículo Tendencia 6", type: "tendencia", price: 499, img: "img/Mujer6.jpg", gallery: ["img/Mujer6.jpg"], color: "Por definir" },
+            { id: 1,name: "Tendencia", type: "hombre", price: 250, img: "img/RopaHombre4.jpg", gallery: ["img/RopaHombre4.jpg"], colors: ['Negro'] },
+            { id: 2, name: "Tendencia", type: "deportivo", price: 150, img: "img/MDeportivo1.jpg", gallery: ["img/MDeportivo1.jpg"], colors: ['Azul', 'Rojo', 'Negro', 'Verde', 'Gris'] },
+            { id: 3,name: "Tendencia", type: "hombre", price: 250, img: "img/RopaHombre7.jpg", gallery: ["img/RopaHombre7.jpg"], colors: ['Roja'] },
+            { id: 4, name: "Tendencia", type: "mujer", price: 120, img: "img/Mujer4.jpg", gallery: ["img/Mujer4.jpg"], colors: ['Azul','Beach','Cafe','Azul Claro','Negro'] },
+            { id: 5, name: "Tendencia", type: "deportivo", price: 200, img: "img/MDeportivo3.jpg", gallery: ["img/MDeportivo3.jpg"], colors: ['Negro', 'Azul', 'Verde'] },
+            { id: 6, name: "Tendencia", type: "mujer", price: 170, img: "img/Mujer6.jpg", gallery: ["img/Mujer6.jpg"], colors: ['Negro','Gris','Blanco'] },
 
             // --- HOMBRE (12 Productos) ---
-            { id: 7, name: "Ropa Hombre 1", type: "hombre", price: 180, img: "img/RopaHombre1.jpg", gallery: ["img/RopaHombre1.jpg"], color: "Por definir" },
-            { id: 8, name: "Ropa Hombre 2", type: "hombre", price: 200, img: "img/RopaHombre2.jpg", gallery: ["img/RopaHombre2.jpg"], color: "Por definir" },
-            { id: 9, name: "Ropa Hombre 3", type: "hombre", price: 280, img: "img/RopaHombre3.jpg", gallery: ["img/RopaHombre3.jpg"], color: "Por definir" },
-            { id: 10, name: "Ropa Hombre 4", type: "hombre", price: 250, img: "img/RopaHombre4.jpg", gallery: ["img/RopaHombre4.jpg"], color: "Por definir" },
-            { id: 11, name: "Ropa Hombre 5", type: "hombre", price: 250, img: "img/RopaHombre5.jpg", gallery: ["img/RopaHombre5.jpg"], color: "Por definir" },
-            { id: 12, name: "Ropa Hombre 6", type: "hombre", price: 150, img: "img/RopaHombre6.jpg", gallery: ["img/RopaHombre6.jpg"], color: "Por definir" },
-            { id: 13, name: "Ropa Hombre 7", type: "hombre", price: 250, img: "img/RopaHombre7.jpg", gallery: ["img/RopaHombre7.jpg"], color: "Por definir" },
-            { id: 14, name: "Ropa Hombre 8", type: "hombre", price: 250, img: "img/RopaHombre8.jpg", gallery: ["img/RopaHombre8.jpg"], color: "Por definir" },
-            { id: 15, name: "Ropa Hombre 9", type: "hombre", price: 250, img: "img/RopaHombre9.jpg", gallery: ["img/RopaHombre9.jpg"], color: "Por definir" },
-            { id: 16, name: "Ropa Hombre 10", type: "hombre", price: 250, img: "img/RopaHombre10.jpg", gallery: ["img/RopaHombre10.jpg"], color: "Por definir" },
-            { id: 17, name: "Ropa Hombre 11", type: "hombre", price: 270, img: "img/RopaHombre11.jpg", gallery: ["img/RopaHombre11.jpg"], color: "Por definir" },
-            { id: 18, name: "Ropa Hombre 12", type: "hombre", price: 220, img: "img/RopaHombre12.jpg", gallery: ["img/RopaHombre12.jpg"], color: "Por definir" },
+            { id: 7, name: "Camisa Antisocial Azul", type: "hombre", price: 180, img: "img/RopaHombre1.jpg", gallery: ["img/RopaHombre1.jpg"], colors: ['Azul'] },
+            { id: 8, name: "Camisa Allsaints Blanca", type: "hombre", price: 200, img: "img/RopaHombre2.jpg", gallery: ["img/RopaHombre2.jpg"], colors: ['Blanca'] },
+            { id: 9, name: "Conjunto Gris", type: "hombre", price: 280, img: "img/RopaHombre3.jpg", gallery: ["img/RopaHombre3.jpg"], colors: ['Gris'] },
+            { id: 10, name: "Camisa London Negra", type: "hombre", price: 250, img: "img/RopaHombre4.jpg", gallery: ["img/RopaHombre4.jpg"], colors: ['Negro'] },
+            { id: 11, name: "Camisa London Blanca", type: "hombre", price: 250, img: "img/RopaHombre5.jpg", gallery: ["img/RopaHombre5.jpg"],colors: ['Blanco'] },
+            { id: 12, name: "Camisas De Hombre", type: "hombre", price: 150, img: "img/RopaHombre6.jpg", gallery: ["img/RopaHombre6.jpg"], colors: ['Negro','Blanco', 'Rosa']  },
+            { id: 13, name: "Camisa Antisocial Roja", type: "hombre", price: 250, img: "img/RopaHombre7.jpg", gallery: ["img/RopaHombre7.jpg"], colors: ['Roja'] },
+            { id: 14, name: "Camisa Antisocial Rosa", type: "hombre", price: 250, img: "img/RopaHombre8.jpg", gallery: ["img/RopaHombre8.jpg"], colors: ['Rosa'] },
+            { id: 15, name: "Camisa Champions Negra", type: "hombre", price: 250, img: "img/RopaHombre9.jpg", gallery: ["img/RopaHombre9.jpg"], colors: ['Negro'] },
+            { id: 16, name: "Conjunto Blanco/Negro", type: "hombre", price: 250, img: "img/RopaHombre10.jpg", gallery: ["img/RopaHombre10.jpg"], colors: ['Blanco/Negro'] },
+            { id: 17, name: "Conjunto Negro", type: "hombre", price: 270, img: "img/RopaHombre11.jpg", gallery: ["img/RopaHombre11.jpg"], colors: ['Negro'] },
+            { id: 18, name: "Camisa H", type: "hombre", price: 220, img: "img/RopaHombre12.jpg", gallery: ["img/RopaHombre12.jpg"], colors: ['Cafe'] },
 
             // --- MUJER DEPORTIVO (5 Productos) ---
-            { id: 19, name: "Deportivo Mujer 1", type: "deportivo", price: 150, img: "img/MDeportivo1.jpg", gallery: ["img/MDeportivo1.jpg"], color: "Por definir" },
-            { id: 20, name: "Deportivo Mujer 2", type: "deportivo", price: 150, img: "img/MDeportivo2.jpg", gallery: ["img/MDeportivo2.jpg"], color: "Por definir" },
-            { id: 21, name: "Deportivo Mujer 3", type: "deportivo", price: 200, img: "img/MDeportivo3.jpg", gallery: ["img/MDeportivo3.jpg"], color: "Por definir" },
-            { id: 22, name: "Deportivo Mujer 4", type: "deportivo", price: 100, img: "img/MDeportivo4.jpg", gallery: ["img/MDeportivo4.jpg"], color: "Por definir" },
-            { id: 23, name: "Deportivo Mujer 5", type: "deportivo", price: 200, img: "img/MDeportivo5.jpg", gallery: ["img/MDeportivo5.jpg"], color: "Por definir" },
+            { id: 19, name: "Short Deportivo", type: "deportivo", price: 150, img: "img/MDeportivo1.jpg", gallery: ["img/MDeportivo1.jpg"], colors: ['Azul', 'Rojo', 'Negro', 'Verde', 'Gris'] },
+            { id: 20, name: "Leggins Cortos Deportivos", type: "deportivo", price: 150, img: "img/MDeportivo2.jpg", gallery: ["img/MDeportivo2.jpg"], colors: ['Negro Liso', 'Cafe', 'Blanco', 'Negro/Blanco'] },
+            { id: 21, name: "Pantolon Leggins Deportivos", type: "deportivo", price: 200, img: "img/MDeportivo3.jpg", gallery: ["img/MDeportivo3.jpg"], colors: ['Negro', 'Azul', 'Verde'] },
+            { id: 22, name: "Camisas Deportivas", type: "deportivo", price: 100, img: "img/MDeportivo4.jpg", gallery: ["img/MDeportivo4.jpg"], colors: ['Negro', 'Cafe', 'Rojo', 'Beach', 'Blanco'] },
+            { id: 23, name: "Pantalon Leggins Deportivos", type: "deportivo", price: 200, img: "img/MDeportivo5.jpg", gallery: ["img/MDeportivo5.jpg"], colors: ['Blanco', 'Cafe', 'Verde'] },
 
             // --- MUJER (18 Productos) ---
-            { id: 24, name: "Ropa Mujer 1", type: "mujer", price: 250, img: "img/Mujer1.jpg", gallery: ["img/Mujer1.jpg"], color: "Por definir" },
-            { id: 25, name: "Ropa Mujer 2", type: "mujer", price: 250, img: "img/Mujer2.jpg", gallery: ["img/Mujer2.jpg"], color: "Por definir" },
-            { id: 26, name: "Ropa Mujer 3", type: "mujer", price: 220, img: "img/Mujer3.jpg", gallery: ["img/Mujer3.jpg"], color: "Por definir" },
-            { id: 27, name: "Ropa Mujer 4", type: "mujer", price: 120, img: "img/Mujer4.jpg", gallery: ["img/Mujer4.jpg"], color: "Por definir" },
-            { id: 28, name: "Ropa Mujer 5", type: "mujer", price: 120, img: "img/Mujer5.jpg", gallery: ["img/Mujer5.jpg"], color: "Por definir" },
-            { id: 29, name: "Ropa Mujer 6", type: "mujer", price: 170, img: "img/Mujer6.jpg", gallery: ["img/Mujer6.jpg"], color: "Por definir" },
-            { id: 30, name: "Ropa Mujer 7", type: "mujer", price: 250, img: "img/Mujer7.jpg", gallery: ["img/Mujer7.jpg"], color: "Por definir" },
-            { id: 31, name: "Ropa Mujer 8", type: "mujer", price: 170, img: "img/Mujer8.jpg", gallery: ["img/Mujer8.jpg"], color: "Por definir" },
-            { id: 32, name: "Ropa Mujer 9", type: "mujer", price: 120, img: "img/Mujer9.jpg", gallery: ["img/Mujer9.jpg"], color: "Por definir" },
-            { id: 33, name: "Ropa Mujer 10", type: "mujer", price: 120, img: "img/Mujer10.jpg", gallery: ["img/Mujer10.jpg"], color: "Por definir" },
-            { id: 34, name: "Ropa Mujer 11", type: "mujer", price: 180, img: "img/Mujer11.jpg", gallery: ["img/Mujer11.jpg"], color: "Por definir" },
-            { id: 35, name: "Ropa Mujer 12", type: "mujer", price: 180, img: "img/Mujer12.jpg", gallery: ["img/Mujer12.jpg"], color: "Por definir" },
-            { id: 36, name: "Ropa Mujer 13", type: "mujer", price: 150, img: "img/Mujer13.jpg", gallery: ["img/Mujer13.jpg"], color: "Por definir" },
-            { id: 37, name: "Ropa Mujer 14", type: "mujer", price: 150, img: "img/Mujer14.jpg", gallery: ["img/Mujer14.jpg"], color: "Por definir" },
-            { id: 38, name: "Ropa Mujer 15", type: "mujer", price: 200, img: "img/Mujer15.jpg", gallery: ["img/Mujer15.jpg"], color: "Por definir" },
-            { id: 39, name: "Ropa Mujer 16", type: "mujer", price: 170, img: "img/Mujer16.jpg", gallery: ["img/Mujer16.jpg"], color: "Por definir" },
-            { id: 40, name: "Ropa Mujer 17", type: "mujer", price: 180, img: "img/Mujer17.jpg", gallery: ["img/Mujer17.jpg"], color: "Por definir" },
-            { id: 41, name: "Ropa Mujer 18", type: "mujer", price: 160, img: "img/Mujer18.jpg", gallery: ["img/Mujer18.jpg"], color: "Por definir" }
+            { id: 24, name: "Short M", type: "mujer", price: 250, img: "img/Mujer1.jpg", gallery: ["img/Mujer1.jpg"], colors: ['Gris'] },
+            { id: 25, name: "Short R", type: "mujer", price: 250, img: "img/Mujer2.jpg", gallery: ["img/Mujer2.jpg"], colors: ['Gris'] },
+            { id: 26, name: "Conjunto 1", type: "mujer", price: 220, img: "img/Mujer3.jpg", gallery: ["img/Mujer3.jpg"], colors: ['Azul Marono'] },
+            { id: 27, name: "Camisa De Tirantes", type: "mujer", price: 120, img: "img/Mujer4.jpg", gallery: ["img/Mujer4.jpg"], colors: ['Azul','Beach','Cafe','Azul Claro','Negro'] },
+            { id: 28, name: "Tops", type: "mujer", price: 120, img: "img/Mujer5.jpg", gallery: ["img/Mujer5.jpg"], colors: ['Negro','Verde','Blanco'] },
+            { id: 29, name: "Blusas Sin Tirantes", type: "mujer", price: 170, img: "img/Mujer6.jpg", gallery: ["img/Mujer6.jpg"], colors: ['Negro','Gris','Blanco'] },
+            { id: 30, name: "Pantalones Mujer", type: "mujer", price: 250, img: "img/Mujer7.jpg", gallery: ["img/Mujer7.jpg"], colors: ['Negro','Azul Rayado','Beach'] },
+            { id: 31, name: "Blusas sin tirantes 2", type: "mujer", price: 170, img: "img/Mujer8.jpg", gallery: ["img/Mujer8.jpg"], colors: ['Rojo','Gris','Blanco'] },
+            { id: 32, name: "Blusa Sin Tirantes Cortas", type: "mujer", price: 120, img: "img/Mujer9.jpg", gallery: ["img/Mujer9.jpg"], colors: ['Negro','Gris','Blanca Rayada','Blanca'] },
+            { id: 33, name: "Short Cortos", type: "mujer", price: 120, img: "img/Mujer10.jpg", gallery: ["img/Mujer10.jpg"], colors: ['Negro','Blanco','Gris'] },
+            { id: 34, name: "Top Mujer", type: "mujer", price: 180, img: "img/Mujer11.jpg", gallery: ["img/Mujer11.jpg"], colors: ['Rojo'] },
+            { id: 35, name: "Blusa Dama", type: "mujer", price: 180, img: "img/Mujer12.jpg", gallery: ["img/Mujer12.jpg"], colors: ['Verde'] },
+            { id: 36, name: "Top Mujer N", type: "mujer", price: 150, img: "img/Mujer13.jpg", gallery: ["img/Mujer13.jpg"], colors: ['Negro']},
+            { id: 37, name: "Top Mujer A", type: "mujer", price: 150, img: "img/Mujer14.jpg", gallery: ["img/Mujer14.jpg"], colors: ['Azul'] },
+            { id: 38, name: "Vestido Sin Manjas", type: "mujer", price: 200, img: "img/Mujer15.jpg", gallery: ["img/Mujer15.jpg"], colors: ['Negro','Beach','Rosa'] },
+            { id: 39, name: "Shorts Cortos 2", type: "mujer", price: 170, img: "img/Mujer16.jpg", gallery: ["img/Mujer16.jpg"], colors: ['Beach','Gris','Negro'] },
+            { id: 40, name: "Conjuntos Mujer", type: "mujer", price: 180, img: "img/Mujer17.jpg", gallery: ["img/Mujer17.jpg"], colors: ['Negro','Blanco Rayado','Negro Rayado'] },
+            { id: 41, name: "Short Corto 3", type: "mujer", price: 160, img: "img/Mujer18.jpg", gallery: ["img/Mujer18.jpg"], colors: ['Negro','Blanco Rayado','Beach'] }
         ];
 
         let cart = [];
         let selectedSize = "";
+        let selectedColor = "";
         let currentModalQty = 1;
         let currentFilter = 'todos';
 
@@ -881,13 +889,26 @@
             `).join('');
 
             const sizeContainer = document.getElementById('size-container');
-            
             const tallas = ['M', 'L'];
             selectedSize = tallas[0];
-            
             sizeContainer.innerHTML = tallas.map(t => 
                 `<button class="size-btn ${t === selectedSize ? 'selected' : ''}" onclick="selectSize(this, '${t}')">${t}</button>`
             ).join('');
+
+            const colorSelectorDiv = document.getElementById('color-selector');
+            const colorContainer = document.getElementById('color-container');
+            
+            // Verificamos si el producto tiene el arreglo 'colors' y si tiene elementos
+            if (p.colors && p.colors.length > 0) {
+                colorSelectorDiv.style.display = 'block'; // Mostramos la sección
+                selectedColor = p.colors[0]; // Seleccionamos el primero por defecto
+                colorContainer.innerHTML = p.colors.map(c => 
+                    `<button class="color-btn ${c === selectedColor ? 'selected' : ''}" onclick="selectColor(this, '${c}')">${c}</button>`
+                ).join('');
+            } else {
+                colorSelectorDiv.style.display = 'none'; // Ocultamos la sección
+                selectedColor = "Único"; // Valor por defecto si no hay colores
+            }
 
             document.getElementById('add-btn').onclick = () => addToCart(p);
             modal.style.display = 'flex';
@@ -916,6 +937,12 @@
             selectedSize = size;
         }
 
+        function selectColor(btn, color) {
+            document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            selectedColor = color;
+        }
+
         function closeModal() { modal.style.display = 'none'; }
 
         function showSuccessToast() {
@@ -927,11 +954,11 @@
         }
 
         function addToCart(product) {
-            const existingIndex = cart.findIndex(item => item.id === product.id && item.size === selectedSize);
+            const existingIndex = cart.findIndex(item => item.id === product.id && item.size === selectedSize && item.color === selectedColor);
             if(existingIndex > -1) {
                 cart[existingIndex].qty += currentModalQty;
             } else {
-                cart.push({...product, size: selectedSize, qty: currentModalQty});
+                cart.push({...product, size: selectedSize, color: selectedColor, qty: currentModalQty});
             }
             updateCart();
             closeModal();
@@ -952,7 +979,7 @@
                     <img src="${item.img}">
                     <div class="cart-item-info">
                         <h4>${item.name}</h4>
-                        <p>Talla: ${item.size}</p>
+                        <p>Talla: ${item.size} ${item.color !== 'Único' ? '| Color: ' + item.color : ''}</p>
                         <p style="font-weight:bold; color:var(--accent)">$${item.price}</p>
                         <div class="cart-qty-inline">
                             <button class="btn-qty-small" onclick="changeCartQty(${index}, -1)">-</button>
@@ -994,7 +1021,9 @@
             cart.forEach((item) => {
                 message += `Producto: ${item.name}\n`;
                 message += `Talla: ${item.size}\n`;
-                message += `Color: ${item.color || 'No especificado'}\n`;
+                if (item.color !== 'Único') {
+                    message += `Color: ${item.color}\n`;
+                }
                 message += `Cantidad: ${item.qty}\n\n`;
             });
             
