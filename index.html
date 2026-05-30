@@ -412,13 +412,17 @@
         .cart-footer { padding: 25px; background: #fafafa; border-top: 1px solid #eee; }
         
         .checkout-info { margin-bottom: 20px; }
-        .checkout-info input {
+        .checkout-info input, .checkout-info textarea {
             width: 100%;
             padding: 12px;
             border: 1px solid #ddd;
             font-family: inherit;
             margin-top: 5px;
             font-size: 0.9rem;
+        }
+        
+        .checkout-info textarea {
+            resize: vertical;
         }
 
         .total-row { display: flex; justify-content: space-between; font-weight: 700; font-size: 1.2rem; margin-bottom: 20px; }
@@ -678,6 +682,10 @@
             <div class="checkout-info">
                 <label style="font-size: 0.75rem; font-weight: bold; text-transform: uppercase;">Tu Nombre:</label>
                 <input type="text" id="customer-name" placeholder="Ej: Juan Pérez">
+            </div>
+            <div class="checkout-info">
+                <label style="font-size: 0.75rem; font-weight: bold; text-transform: uppercase;">Dirección de envío:</label>
+                <textarea id="customer-address" placeholder="Ej: Calle Juárez #123, Col. Centro, C.P. 85000" rows="2"></textarea>
             </div>
             <div class="total-row">
                 <span>Total:</span>
@@ -1015,16 +1023,25 @@
         function checkout() {
             if(cart.length === 0) return alert("Tu carrito está vacío");
             
-            let message = `Hola 👋 vengo del catálogo de JALULASHOP\n`;
+            const name = document.getElementById('customer-name').value.trim();
+            const address = document.getElementById('customer-address').value.trim();
+
+            if(!name || !address) {
+                return alert("Por favor, ingresa tu nombre y dirección para el envío.");
+            }
+            
+            let message = `Hola 👋 vengo del catálogo de JALULASHOP\n\n`;
+            message += `*Cliente:* ${name}\n`;
+            message += `*Dirección de envío:* ${address}\n\n`;
             message += `Quiero confirmar este pedido:\n\n`;
             
             cart.forEach((item) => {
-                message += `Producto: ${item.name}\n`;
-                message += `Talla: ${item.size}\n`;
+                message += `- ${item.qty}x ${item.name}\n`;
+                message += `  Talla: ${item.size}\n`;
                 if (item.color !== 'Único') {
-                    message += `Color: ${item.color}\n`;
+                    message += `  Color: ${item.color}\n`;
                 }
-                message += `Cantidad: ${item.qty}\n\n`;
+                message += `\n`;
             });
             
             message += `¿Me confirmas disponibilidad y precio final?🙌`;
@@ -1047,13 +1064,13 @@
         });
 
         document.addEventListener('mouseover', (e) => {
-            if(e.target.closest('a') || e.target.closest('button') || e.target.closest('.product-card') || e.target.closest('.cart-icon') || e.target.closest('.close-modal') || e.target.closest('.thumb-img') || e.target.closest('input')) {
+            if(e.target.closest('a') || e.target.closest('button') || e.target.closest('.product-card') || e.target.closest('.cart-icon') || e.target.closest('.close-modal') || e.target.closest('.thumb-img') || e.target.closest('input') || e.target.closest('textarea')) {
                 document.body.classList.add('hovering');
             }
         });
         
         document.addEventListener('mouseout', (e) => {
-            if(e.target.closest('a') || e.target.closest('button') || e.target.closest('.product-card') || e.target.closest('.cart-icon') || e.target.closest('.close-modal') || e.target.closest('.thumb-img') || e.target.closest('input')) {
+            if(e.target.closest('a') || e.target.closest('button') || e.target.closest('.product-card') || e.target.closest('.cart-icon') || e.target.closest('.close-modal') || e.target.closest('.thumb-img') || e.target.closest('input') || e.target.closest('textarea')) {
                 document.body.classList.remove('hovering');
             }
         });
